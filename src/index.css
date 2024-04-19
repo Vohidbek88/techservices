@@ -1,0 +1,15 @@
+.w-mob{
+    width: 50%;
+}
+@media only screen and (max-width:600px) {
+.w-mob{
+width: 90%;
+}
+.main-img{
+        width: 300px;
+}
+}
+.password, .password1{
+outline:none;
+}
+
