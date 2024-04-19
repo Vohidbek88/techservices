@@ -27,7 +27,7 @@ const token=localStorage.getItem('token')
 
    const fd=new FormData()
    fd.append('file',fayl)
-   console.log(fayl);
+   console.log(fayl,token);
 
    setMSg('Uploading...')
    setProgres(prevstate=>{
@@ -35,7 +35,7 @@ const token=localStorage.getItem('token')
    })
   
   
-   await axios.post('https://shaxobiddin20.pythonanywhere.com/api/v1/file/excel_to_word/',fd,{
+   await axios.post('https://shaxobiddin20.pythonanywhere.com/api/v1/file/excel_to_word/',fayl,{
       onUploadProgress:(progresevent)=>{setProgres(prevstate=>{
         return {...prevstate,pc:progresevent.progress*100}
       })},
@@ -62,8 +62,8 @@ const token=localStorage.getItem('token')
   return (
     <div className='text-center mt-5'>
        <h1> Hujjatlardan online foydlalanish</h1>
-       <input type="file" name='file' accept='.xlsx, .xls' className='form-control w-50 m-auto' onChange={e=>setHujjat(e.target.files[0])} />
-       <button className='btn btn-primary' onClick={HandleUpload}>Upload</button>
+       <input type="file" name='file' accept='.xlsx, .xls' className='form-control w-50 m-auto w-mob' onChange={e=>setHujjat(e.target.files[0])}/>
+       <button className='btn btn-primary mt-3' onClick={HandleUpload}>Upload</button>
     {
       progres.statred && <progress max={'100'} value={progres.pc}>
 

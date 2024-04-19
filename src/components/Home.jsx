@@ -8,7 +8,7 @@ const Home = () => {
   
 const token=localStorage.getItem('token')
   return (
-    <div className="container-fluid d-md-flex justify-content-around align-items-center">
+    <div className="container-fluid d-md-flex  justify-content-around align-items-center">
   <div className="pt-3">
     <h1 className="display-5 fw-bold text-body-emphasis text-center">
       OTM O'qituvchilarga
