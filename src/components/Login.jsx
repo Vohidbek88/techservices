@@ -1,23 +1,44 @@
-import axios from "axios"
+import axios from 'axios'
 import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { NavLink, useNavigate } from "react-router-dom"
+import { signUserFailure, signUserStart, signUserSuccess } from "../slice/auth"
 
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate=useNavigate()
+  const dispatch=useDispatch()
+  const {isLoading,isLoggedin}=useSelector(state=>state.auth)
   const submit=async(e)=>{
     e.preventDefault();
-  const {data}=await axios.post('https://shaxobiddin20.pythonanywhere.com/api/v1/user/login',{
-    email,
-    password,
-  },{withCredentials:false})
+
+    const userdata={
+      email,
+      password,
+    }
+    dispatch(signUserStart())
+    try {
+      const {data}=await axios.post('https://shaxobiddin20.pythonanywhere.com/api/v1/user/login/',userdata)
+      dispatch(signUserSuccess(data))
+      // axios.defaults.headers.common['Authorization']=`Token ${data['token']}`
+      console.log(data);
+      navigate('/hujjat')
+    } catch (error) {
+      dispatch(signUserFailure(error.response.data.errors))
+    }
   
-  axios.defaults.headers.common['Authorization']=`Token ${data['token']}`
-  navigate('/hujjat')
+
   
   }
+
+  // useEffect(() => {
+  //   if(isLoggedin){
+  //     navigate('/')
+  //   }
+  //   }, [isLoggedin])
+    
 
   return (
     <main className="form-signin w-mob m-auto">
@@ -44,7 +65,7 @@ const Login = () => {
         />
       <label htmlFor="floatingPassword">Password</label>
     </div>
-    <button className="btn btn-primary w-100 py-2 mt-2" type="submit">
+    <button disabled={isLoading} className="btn btn-primary w-100 py-2 mt-2" type="submit">
       Login
     </button>
     <p className="mt-2">

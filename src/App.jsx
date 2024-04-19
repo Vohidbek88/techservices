@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, useNavigate } from "react-router-dom"
 import Navbar from "./components/Navbar"
 import Home from "./components/Home"
 import Login from "./components/Login"
@@ -8,6 +8,10 @@ import Hujjatlar from "./components/Hujjatlar"
 
 function App() {
 
+
+ 
+  
+ 
 
   return (
  <div>
