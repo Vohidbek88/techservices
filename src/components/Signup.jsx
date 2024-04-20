@@ -1,10 +1,12 @@
-import axios from 'axios'
-import { useEffect, useState } from "react"
+
+import {  useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { NavLink, useNavigate } from "react-router-dom"
 import { signUserFailure, signUserStart, signUserSuccess } from "../slice/auth"
+import { useHttp } from "../service/httpRequest"
 const Signup = () => {
-  const {isLoading,isLoggedin}=useSelector(state=>state.auth)
+  const { $get , $post } = useHttp()
+  const {isLoading}=useSelector(state=>state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [name, setName] = useState('')
@@ -16,29 +18,28 @@ const Signup = () => {
   const submit = async (e) => {
     e.preventDefault();
 
-    const data = {
+    const userdata = {
       email: email,
       password: password,
       password2: confirmpassword,
       first_name: name,
       last_name: seconname,
     }
-    dispatch(signUserStart())
+    // user/register/
+dispatch(signUserStart())
     try {
-      const res = await axios.post("https://shaxobiddin20.pythonanywhere.com/api/v1/user/register/", data)
-      dispatch(signUserSuccess(res.data))
-      console.log(res.data);
-      navigate('/login')
+      
+      const {data}= await $post(`user/register/`,userdata);
+      console.log(data);
+      dispatch(signUserSuccess(data))
+
+        navigate('/login')
     } catch (error) {
-      dispatch(signUserFailure(error.response.data.errors))
+      dispatch(signUserFailure(error))
     }
+
+   
   }
-  useEffect(() => {
-    if(isLoggedin){
-      navigate('/login')
-    }
-    }, [isLoggedin])
-    
 
 
 

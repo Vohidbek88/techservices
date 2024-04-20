@@ -3,9 +3,11 @@ import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { NavLink, useNavigate } from "react-router-dom"
 import { signUserFailure, signUserStart, signUserSuccess } from "../slice/auth"
+import { useHttp } from "../service/httpRequest"
 
 
 const Login = () => {
+  const { $post } = useHttp()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate=useNavigate()
@@ -18,17 +20,20 @@ const Login = () => {
       email,
       password,
     }
+    // user/login/
+
     dispatch(signUserStart())
     try {
-      const {data}=await axios.post('https://shaxobiddin20.pythonanywhere.com/api/v1/user/login/',userdata)
-      dispatch(signUserSuccess(data))
-      // axios.defaults.headers.common['Authorization']=`Token ${data['token']}`
+      const {data}= await $post(`user/login/`,userdata)
       console.log(data);
-      navigate('/hujjat')
-    } catch (error) {
-      dispatch(signUserFailure(error.response.data.errors))
-    }
+      dispatch(signUserSuccess(data))
+     
+        navigate('/hujjat')
   
+      
+    } catch (error) {
+      dispatch(signUserFailure(error))
+    }
 
   
   }

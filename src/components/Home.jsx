@@ -6,7 +6,8 @@ const Home = () => {
 
   
   
-const token=localStorage.getItem('token')
+const token=(localStorage.getItem('token'))
+console.log(typeof token);
   return (
     <div className="container-fluid d-md-flex  justify-content-around align-items-center">
   <div className="pt-3">
@@ -19,7 +20,7 @@ const token=localStorage.getItem('token')
         platformasi
       </p>
       <div className="d-grid gap-2 d-sm-flex justify-content-sm-center">
-       {token?<p className='alert alert-info'>Siz ro'yhatdan o'tgansiz</p>: <>
+       {token.length>0?<p className='alert alert-info'>Siz ro'yhatdan o'tgansiz</p>: <>
        <NavLink to="/signup" className="btn btn-primary btn-lg px-4">
         Sign Up
       </NavLink>

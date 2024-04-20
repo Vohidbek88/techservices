@@ -1,42 +1,31 @@
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch} from "react-redux"
 import { NavLink, useNavigate } from "react-router-dom"
 import auth, { logout } from "../slice/auth"
-import axios from "axios"
+
 
 
 
 
 const Navbar = () => {
-  const {isLoggedin}=useSelector(state=>state.auth)
   const dispatch=useDispatch()
   const navigate=useNavigate()
-  console.log(isLoggedin);
+  const token=(localStorage.getItem('token'))
 
-  const Chiqish=async()=>{
-    const token=localStorage.getItem('token')
-    try {
-      await axios.delete("https://shaxobiddin20.pythonanywhere.com/api/v1/user/logout/",{
-        headers:{
-          Authorization:`Token ${token}`
-        }
-      })
+
+  const Chiqish=async()=>{   
       localStorage.removeItem('token')
       dispatch(logout())
       navigate('/login')
-    } catch (error) {
-      
-    }
+  
   }
 
   const Otvorish=()=>{
-    const token=localStorage.getItem('token')
     if(token){
       navigate('/hujjat')
     }else{
       navigate('/login')
     }
   }
-  const token=localStorage.getItem('token')
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -64,7 +53,7 @@ const Navbar = () => {
         </li>
          
         <li className="nav-item"> 
-          <button className="nav-link active" aria-current="page" to={'/hujjat'} onClick={Otvorish}>
+          <button className="nav-link active" aria-current="page"  onClick={Otvorish}>
             Hujjat
           </button>
         </li>
